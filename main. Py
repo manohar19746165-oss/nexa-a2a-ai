@@ -12,3 +12,10 @@ def read_root():
 # Example:
 # from dukan.routes import router as dukan_router
 # app.include_router(dukan_router, prefix="/dukan", tags=["Dukan"])
+    <script>
+        document.getElementById('myButton').addEventListener('click', function() {
+            alert('बटन पर क्लिक किया गया!');
+        });
+    </script>
+</body>
+</html>
