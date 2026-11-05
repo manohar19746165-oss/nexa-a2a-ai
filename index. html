@@ -1,1 +1,321 @@
+<!DOCTYPE html>
+<html lang="pa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Dashboard App - ਲੋਕਨਿਆਰੀ ਕੇਸਰੀ ਸਮਾਰਟ ਮੁਨੀਮ</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg-1: linear-gradient(135deg, #ff5722, #e65100);
+            --card-bg-2: linear-gradient(135deg, #e91e63, #880e4f);
+            --card-bg-3: linear-gradient(135deg, #ab47bc, #4a148c);
+            --text-color: #ffffff;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        .card {
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .card-1 { background: var(--card-bg-1); }
+        .card-2 { background: var(--card-bg-2); }
+        .card-3 { background: var(--card-bg-3); }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .card-sub {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            background-color: #ffffff;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .mic-btn {
+            background-color: #ffeb3b;
+            color: #000;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            margin-top: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .recording {
+            animation: pulse 1s infinite;
+            background-color: #ff1744;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .history-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">All-in-One Dashboard App</div>
+
+    <!-- Card 1: Cylinder Booking -->
+    <div class="card card-1">
+        <div class="badge" id="cylinderTotal">₹0</div>
+        <div style="font-size: 2rem;">🔥</div>
+        <div class="card-title">ਗੈਸ ਸਿਲੰਡਰ ਬੁਕਿੰਗ</div>
+        <div class="card-sub">ਸਿਲੰਡਰ ਬਿਕਰੀ ਦੀ ਐਂਟਰੀ</div>
+        <div class="input-group">
+            <input type="text" id="cylName" placeholder="ਗ੍ਰਾਹਕ ਦਾ ਨਾਮ">
+            <input type="number" id="cylAmount" placeholder="ਰਕਮ (₹)" value="1100">
+            <button onclick="addCylinder()">ਜੋੜੋ</button>
+        </div>
+    </div>
+
+    <!-- Card 2: Udhari Khata -->
+    <div class="card card-2">
+        <div class="badge" id="udhariTotal">₹0 ਉਧਾਰੀ</div>
+        <div style="font-size: 2rem;">📕</div>
+        <div class="card-title">ਖਾਤੇ ਵਿੱਚ ਉਧਾਰੀ ਲਿਖੋ</div>
+        <div class="card-sub">ਗ੍ਰਾਹਕ ਦੀ ਉਧਾਰੀ ਜੋੜੋ</div>
+        <div class="input-group">
+            <input type="text" id="udhName" placeholder="ਗ੍ਰਾਹਕ ਦਾ ਨਾਮ">
+            <input type="number" id="udhAmount" placeholder="ਰਕਮ (₹)">
+            <button onclick="addUdhari()">ਜੋੜੋ</button>
+        </div>
+    </div>
+
+    <!-- Card 3: Robo Speaker -->
+    <div class="card card-3">
+        <div class="badge">ਰੋਬੋ ਰਿਪੋਰਟ</div>
+        <div style="font-size: 2rem;">📢</div>
+        <div class="card-title">ਰੋਬੋ ਸਪੀਕਰ (ਬੋਲੋ ਭਾਈ)</div>
+        <div class="card-sub">ਪੂਰਾ ਹਿਸਾਬ ਬੋਲ ਕੇ ਸੁਣੋ ਜਾਂ ਮਾਈਕ ਨਾਲ ਐਂਟਰੀ ਕਰੋ</div>
+        
+        <button class="mic-btn" id="micBtn" onclick="startVoice()">
+            🎤 ਬੋਲ ਕੇ ਐਂਟਰੀ ਕਰੋ (ਕਹੋ: "ਰਮੇਸ਼ 500 ਉਧਾਰ")
+        </button>
+        
+        <button style="width: 100%; margin-top: 10px; padding: 10px;" onclick="speakFullReport()">
+            🔊 ਪੂਰਾ ਹਿਸਾਬ ਬੋਲ ਕੇ ਸੁਣੋ
+        </button>
+    </div>
+
+    <!-- History Log -->
+    <div class="history-box">
+        <h4 style="margin: 0 0 10px 0; color: #aaa;">ਤਾਜ਼ਾ ਐਂਟਰੀਆਂ</h4>
+        <div id="historyList"></div>
+    </div>
+
+    <div class="footer">
+        ਲੋਕਨਿਆਰੀ ਕੇਸਰੀ ਸਮਾਰਟ ਮੁਨੀਮ • ਸਰਵਾਧਿਕਾਰ ਸੁਰੱਖਿਅਤ
+    </div>
+</div>
+
+<script>
+    let totalCylinder = 0;
+    let totalUdhari = 0;
+
+    // Speak Function (Text-to-Speech)
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'hi-IN';
+            msg.rate = 0.9;
+            window.speechSynthesis.speak(msg);
+        }
+    }
+
+    // Add Cylinder Entry
+    function addCylinder(name = '', amount = 0) {
+        let nameVal = name || document.getElementById('cylName').value || 'ਗ੍ਰਾਹਕ';
+        let amtVal = amount || parseFloat(document.getElementById('cylAmount').value) || 1100;
+
+        totalCylinder += amtVal;
+        document.getElementById('cylinderTotal').innerText = '₹' + totalCylinder;
+        
+        addHistory(nameVal + ' (ਸਿਲੰਡਰ)', amtVal);
+        speak(nameVal + ' ਦਾ ' + amtVal + ' ਰੁਪਏ ਦਾ ਸਿਲੰਡਰ ਬੁੱਕ ਹੋ ਗਿਆ ਹੈ।');
+        
+        document.getElementById('cylName').value = '';
+    }
+
+    // Add Udhar Entry
+    function addUdhari(name = '', amount = 0) {
+        let nameVal = name || document.getElementById('udhName').value || 'ਗ੍ਰਾਹਕ';
+        let amtVal = amount || parseFloat(document.getElementById('udhAmount').value) || 0;
+
+        if (amtVal <= 0) return;
+
+        totalUdhari += amtVal;
+        document.getElementById('udhariTotal').innerText = '₹' + totalUdhari + ' ਉਧਾਰੀ';
+        
+        addHistory(nameVal + ' (ਉਧਾਰੀ)', amtVal);
+        speak(nameVal + ' ਦੇ ਖਾਤੇ ਵਿੱਚ ' + amtVal + ' ਰੁਪਏ ਉਧਾਰੀ ਜੋੜ ਦਿੱਤੀ ਹੈ।');
+        
+        document.getElementById('udhName').value = '';
+        document.getElementById('udhAmount').value = '';
+    }
+
+    // Add Entry to UI History
+    function addHistory(title, amount) {
+        let historyList = document.getElementById('historyList');
+        let item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `<span>${title}</span><b>₹${amount}</b>`;
+        historyList.prepend(item);
+    }
+
+    // Full Report Speech
+    function speakFullReport() {
+        let report = `ਕੁੱਲ ਸਿਲੰਡਰ ਬਿਕਰੀ ${totalCylinder} ਰੁਪਏ ਹੈ, ਅਤੇ ਕੁੱਲ ਉਧਾਰੀ ${totalUdhari} ਰੁਪਏ ਹੈ।`;
+        speak(report);
+    }
+
+    // Voice Recognition (Speech-to-Text)
+    function startVoice() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert("ਤੁਹਾਡੇ ਬ੍ਰਾਊਜ਼ਰ 'ਚ ਮਾਈਕ ਸਪੋਰਟ ਨਹੀਂ ਹੈ। Chrome ਬ੍ਰਾਊਜ਼ਰ ਦੀ ਵਰਤੋਂ ਕਰੋ।");
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'hi-IN';
+        recognition.interimResults = false;
+
+        const micBtn = document.getElementById('micBtn');
+        micBtn.classList.add('recording');
+        micBtn.innerText = '🔴 ਸੁਣ ਰਿਹਾ ਹੈ... ਬੋਲੋ!';
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+            let text = event.results[0][0].transcript.toLowerCase();
+            micBtn.classList.remove('recording');
+            micBtn.innerText = '🎤 ਬੋਲ ਕੇ ਐਂਟਰੀ ਕਰੋ (ਕਹੋ: "ਰਮੇਸ਼ 500 ਉਧਾਰ")';
+
+            let numbers = text.match(/\d+/g);
+
+            if (numbers && numbers.length > 0) {
+                let amount = parseFloat(numbers[0]);
+                let name = text.replace(numbers[0], '').replace('ਉਧਾਰ', '').replace('ਸਿਲੰਡਰ', '').replace('ਰੁਪਏ', '').trim();
+
+                if (text.includes('ਸਿਲੰਡਰ')) {
+                    addCylinder(name || 'ਗ੍ਰਾਹਕ', amount);
+                } else {
+                    addUdhari(name || 'ਗ੍ਰਾਹਕ', amount);
+                }
+            } else {
+                speak('ਕਿਰਪਾ ਕਰਕੇ ਨਾਮ ਅਤੇ ਰਕਮ ਸਾਫ਼ ਬੋਲੋ।');
+            }
+        };
+
+        recognition.onerror = function() {
+            micBtn.classList.remove('recording');
+            micBtn.innerText = '🎤 ਬੋਲ ਕੇ ਐਂਟਰੀ ਕਰੋ (ਕਹੋ: "ਰਮੇਸ਼ 500 ਉਧਾਰ")';
+        };
+    }
+</script>
+
+</body>
+</html>
