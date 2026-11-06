@@ -313,7 +313,7 @@
         recognition.onerror = function() {
             micBtn.classList.remove('recording');
             micBtn.innerText = '🎤 ਬੋਲ ਕੇ ਐਂਟਰੀ ਕਰੋ (ਕਹੋ: "ਰਮੇਸ਼ 500 ਉਧਾਰ")';
-        };
+        };<script src="script.js"></script>
     }
 </script>
 
