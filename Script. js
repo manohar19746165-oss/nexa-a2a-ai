@@ -1,1 +1,66 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const micButton = document.querySelector("#mic-button-id"); // आपके नीले माइक बटन की क्लास या आईडी
+    const inputBox = document.querySelector("#input-box-id");     // जहाँ यूज़र का बोला हुआ टेक्स्ट लिखा आएगा
 
+    // 1. स्पीच रिकग्निशन (सुन्ना) सेटअप
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'pa-IN'; // पंजाबी के लिए 'pa-IN' या हिंदी के लिए 'hi-IN' सेट करें
+        recognition.interimResults = false;
+
+        // जब नीला माइक बटन दबे
+        micButton.addEventListener('click', () => {
+            try {
+                recognition.start();
+                console.log("रोबोट सुन रहा है...");
+            } catch (err) {
+                console.log("माइक एरर: ", err);
+            }
+        });
+
+        // जब आवाज़ टेक्स्ट में बदल जाए
+        recognition.onresult = function (event) {
+            const spokenText = event.results[0][0].transcript;
+            inputBox.value = spokenText;
+            
+            // रोबोट को सवाल भेजें और जवाब बुलवाएं
+            processAndSpeak(spokenText);
+        };
+
+        recognition.onerror = function (event) {
+            console.log("स्पीच रिकग्निशन एरर: ", event.error);
+        };
+    } else {
+        console.log("यह ब्राउज़र स्पीच रिकग्निशन सपोर्ट नहीं करता।");
+    }
+});
+
+// 2. रोबोट की आवाज़ (बोलना) का फंक्शन
+function speakResponse(textToSpeak) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // पुरानी कोई आवाज़ चल रही हो तो रोकें
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = 'pa-IN'; // भाषा सेट करें ('hi-IN' या 'pa-IN')
+        utterance.rate = 1.0;     // बोलने की गति
+        window.speechSynthesis.speak(utterance);
+    } else {
+        console.log("Speech Synthesis supported nahi hai.");
+    }
+}
+
+// 3. सवाल प्रोसेस करके रोबोट से बुलवाने का तरीका
+function processAndSpeak(userInput) {
+    let reply = "आपकी बात समझ आ गई है लाला जी।";
+    
+    // उदाहरण के लिए पेट्रोल या चीनी के रेट वाला जवाब
+    if (userInput.includes("चीनी") || userInput.includes("रेट")) {
+        reply = "चीनी का आज का रेट सही है लाला जी।";
+    } else {
+        reply = "केसरी सिस्टम एक्टिव है, सेवा जारी है।";
+    }
+
+    inputBox.value = reply; // स्क्रीन पर टेक्स्ट दिखाएं
+    speakResponse(reply);   // रोबोट को मुँह से बोलकर जवाब देने के लिए कहें
+}
