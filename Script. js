@@ -64,3 +64,72 @@ function processAndSpeak(userInput) {
     inputBox.value = reply; // स्क्रीन पर टेक्स्ट दिखाएं
     speakResponse(reply);   // रोबोट को मुँह से बोलकर जवाब देने के लिए कहें
 }
+// केसरी ऐप - एआई रोबोट वॉयस और डिस्प्ले रिस्पॉन्स सिस्टम
+document.addEventListener("DOMContentLoaded", function () {
+    const micButton = document.querySelector("#mic-button-id"); // नीले माइक की आईडी
+    const inputBox = document.querySelector("#input-box-id");     // डिस्प्ले पर टेक्स्ट दिखाने की जगह
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'pa-IN'; // पंजाबी के लिए 'pa-IN' या हिंदी के लिए 'hi-IN'
+        recognition.interimResults = false;
+
+        micButton.addEventListener('click', () => {
+            try {
+                recognition.start();
+                console.log("रोबोट सुन रहा है...");
+            } catch (err) {
+                console.log("माइक एरर: ", err);
+            }
+        });
+
+        recognition.onresult = function (event) {
+            const spokenText = event.results[0][0].transcript;
+            inputBox.value = spokenText;
+            
+            // सवाल का जवाब ढूंढकर डिस्प्ले और आवाज़ दोनों में देना
+            processAndSpeak(spokenText);
+        };
+    }
+});
+
+// रोबोट के बोलने और स्क्रीन पर लिखने का मुख्य फंक्शन
+function processAndSpeak(userInput) {
+    let reply = "केसरी सिस्टम एक्टिव है, कृपया सही खरीद और बिक्री करें लाला जी।";
+    
+    let text = userInput.toLowerCase();
+
+    // 1. चीनी या चाय या पत्ती के रेट से जुड़े सवाल
+    if (text.includes("चीनी") || text.includes("چੀਨੀ") || text.includes("rate") || text.includes("रेट") || text.includes("पत्ती") || text.includes("चाय")) {
+        reply = "चीनी और चाय की पत्ती का आज का रेट बिल्कुल सही चल रहा है लाला जी।";
+    } 
+    // 2. पेट्रोल पंप स्टॉक या तेल से जुड़े सवाल
+    else if (text.includes("पंप") || text.includes("तेल") || text.includes("petrol") || text.includes("डीजल") || text.includes("stock")) {
+        reply = "पंप पर पेट्रोल और डीजल का स्टॉक पूरा अपडेट है लाला जी।";
+    } 
+    // 3. बैंक या पिग्मी बैलेंस से जुड़े सवाल
+    else if (text.includes("बैंक") || text.includes("बैलेंस") || text.includes("pigmy") || text.includes("खाता")) {
+        reply = "पिग्मी बैंक का आज का डिपॉजिट बैलेंस सुरक्षित दर्ज है लाला जी।";
+    } 
+    // 4. सर्वर या तकनीकी समस्या से जुड़े सवाल
+    else if (text.includes("सर्वर") || text.includes("down") || text.includes("डाउन")) {
+        reply = "अभी सर्वर एकदम ठीक चल रहा है लाला जी, कोई रुकावट नहीं है।";
+    }
+
+    // डिस्प्ले पर लिखकर दिखाने के लिए
+    const inputBox = document.querySelector("#input-box-id");
+    if (inputBox) {
+        inputBox.value = reply;
+    }
+
+    // रोबोट की आवाज़ से बोलकर सुनाने के लिए (Text-to-Speech)
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // पुरानी आवाज़ रोके
+        const utterance = new SpeechSynthesisUtterance(reply);
+        utterance.lang = 'pa-IN'; // भाषा सेट करें
+        utterance.rate = 1.0;
+        window.speechSynthesis.speak(utterance);
+    }
+}
