@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>जी केसरी ऑल-इन-वन - ऑडियो टेस्ट</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 450px;
+            width: 100%;
+        }
+        h2 {
+            color: #1a5276;
+            margin-top: 0;
+            text-align: center;
+        }
+        .status-box {
+            background: #e8f8f5;
+            border-left: 5px solid #2ec4b6;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #333;
+        }
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            background-color: #ff9f1c;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #e68a00;
+        }
+        .output-box {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f8f9fa;
+            border: 1px dashed #bbb;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
 
+<div class="card">
+    <h2>जी केसरी ऑल-इन-वन</h2>
+    <div class="status-box">
+        <strong>सिस्टम स्टेटस:</strong> ऑनलाइन (डेटा OK)
+    </div>
+
+    <label for="speakerSelect">ऑडियो आउटपुट पोर्ट चुनें:</label>
+    <select id="speakerSelect">
+        <option value="external">अलग वाला (External Speaker) - 3.5mm / DAC Pin</option>
+        <option value="internal">मशीन का इनबिल्ट स्पीकर</option>
+    </select>
+
+    <label for="speakText">टेस्ट मैसेज लिखें:</label>
+    <input type="text" id="speakText" value="जी केसरी ऑल इन वन: पंप का रेट 96.72 रुपये है।">
+
+    <button onclick="playSpeech()">एक्स्ट्रा स्पीकर पर आवाज़ भेजें</button>
+
+    <div class="output-box" id="logOutput">
+        स्टेटस: तैयार है। बटन दबाकर एक्सटर्नल स्पीकर की आवाज़ चेक करें।
+    </div>
+</div>
+
+<script>
+    function playSpeech() {
+        var text = document.getElementById('speakText').value;
+        var speakerType = document.getElementById('speakerSelect').value;
+        var log = document.getElementById('logOutput');
+
+        if ('speechSynthesis' in window) {
+            var utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'hi-IN';
+            utterance.rate = 0.9;
+
+            window.speechSynthesis.speak(utterance);
+            
+            log.innerHTML = "<strong>सिग्नल भेजा गया:</strong> " + 
+                (speakerType === 'external' ? 'एक्स्ट्रा स्पीकर आउटपुट PORT_DAC1' : 'इनबिल्ट स्पीकर') + 
+                "<br><strong>बोला गया टेक्स्ट:</strong> " + text;
+        } else {
+            log.innerHTML = "<span style='color:red;'>एरर: आपका ब्राउज़र या बोर्ड TTS सपोर्ट नहीं कर रहा है।</span>";
+        }
+    }
+</script>
+
+</body>
+</html>
