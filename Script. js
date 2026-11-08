@@ -133,3 +133,23 @@ function processAndSpeak(userInput) {
         window.speechSynthesis.speak(utterance);
     }
 }
+let audioCtx = null;
+
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume().then(() => {
+      console.log('AudioContext successfully resumed!');
+    }).catch(err => {
+      console.error('AudioContext resume failed:', err);
+    });
+  }
+}
+
+// Kisi bhi button click ya screen touch par is function ko trigger karein
+document.addEventListener('click', () => {
+  initAudio();
+}, { once: true });
