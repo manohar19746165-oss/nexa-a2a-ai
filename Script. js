@@ -151,5 +151,17 @@ function initAudio() {
 
 // Kisi bhi button click ya screen touch par is function ko trigger karein
 document.addEventListener('click', () => {
-  initAudio();
+  initAudio();// माइक बटन पर क्लिक करने पर वॉयस सुनना शुरू करें
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = 'pa-IN'; // पंजाबी के लिए (हिंदी के लिए 'hi-IN' कर सकते हैं)
+
+document.querySelector('.mic-button').addEventListener('click', () => {
+  recognition.start();
+});
+
+recognition.onresult = (event) => {
+  const userQuery = event.results[0][0].transcript;
+  document.querySelector('.input-box').value = userQuery; // टेक्स्ट बॉक्स में सवाल दिखाएं
+  processAIQuery(userQuery); // AI रोबोट को सवाल भेजें
+};
 }, { once: true });
