@@ -178,5 +178,12 @@ function processAIQuery(query) {
   }
 
   speakResponse(responseText); // रोबोट से बुलवाएं
+}// रोबोट को आवाज़ में जवाब देने के लिए
+function speakResponse(text) {
+  const synth = window.speechSynthesis;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'pa-IN'; // या 'hi-IN'
+  utterance.rate = 0.95;    // आवाज़ की स्पीड
+  synth.speak(utterance);
 }
 }, { once: true });
