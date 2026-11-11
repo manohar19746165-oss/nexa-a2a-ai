@@ -163,5 +163,20 @@ recognition.onresult = (event) => {
   const userQuery = event.results[0][0].transcript;
   document.querySelector('.input-box').value = userQuery; // टेक्स्ट बॉक्स में सवाल दिखाएं
   processAIQuery(userQuery); // AI रोबोट को सवाल भेजें
-};
+};// यूज़र के सवाल का जवाब तैयार करने का लॉजिक
+function processAIQuery(query) {
+  let responseText = "";
+  
+  if (query.includes("पेट्रोल") || query.includes("MS-1") || query.includes("petrol")) {
+    responseText = "सर, पेट्रोल टैंक MS-1 में अभी 14,200 लीटर स्टॉक उपलब्ध है।";
+  } else if (query.includes("डीजल") || query.includes("HSD-1") || query.includes("diesel")) {
+    responseText = "सर, डीजल टैंक HSD-1 में अभी 18,500 लीटर स्टॉक बचा है।";
+  } else if (query.includes("सेल") || query.includes("दुकान")) {
+    responseText = "आज की कुल दुकान की बिक्री और बिल रिपोर्ट अपडेट हो गई है।";
+  } else {
+    responseText = "जी सर, मैंने आपका सवाल सुन लिया है। मैं आपकी रिपोर्ट चेक कर रहा हूँ।";
+  }
+
+  speakResponse(responseText); // रोबोट से बुलवाएं
+}
 }, { once: true });
