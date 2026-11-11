@@ -1,1 +1,215 @@
+<!DOCTYPE html>
+<html lang="pa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KESARI PRO AI DASHBOARD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@500;600;700&display=swap');
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #050b14;
+            color: #e2e8f0;
+        }
 
+        .title-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.7) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .glow-box-cyan {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
+        }
+
+        .robot-eye-glow {
+            filter: drop-shadow(0 0 12px #06b6d4) drop-shadow(0 0 24px #06b6d4);
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+
+        .scanline-effect {
+            animation: scanline 8s linear infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-2 sm:p-4 text-slate-100 bg-[#030712] selection:bg-cyan-500 selection:text-black">
+
+    <!-- Top Navigation Bar -->
+    <header class="max-w-4xl mx-auto glass-panel rounded-2xl p-3 sm:p-4 mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-cyan-500/30">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-orange-500/30">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div>
+                <h1 class="title-font text-lg sm:text-xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-cyan-400">
+                    KESARI PRO <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/40">ਪੰਜਾਬੀ AI ਸਿਸਟਮ ⚡</span>
+                </h1>
+                <p class="text-xs text-slate-400">ਪੰਪ • ਦੁਕਾਨ • ਗੈਸ • ਸੋਸਾਇਟੀ — LIVE SYSTEM</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+            <button onclick="speakText('ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ ਸਰ, ਸਪੀਕਰ ਬਿਲਕੁل ਠੀਕ ਕੰਮ ਕਰ ਰਿਹਾ ਹੈ।')" class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1">
+                <i class="fa-solid fa-volume-high"></i> ਟੈਸਟ ਸਪੀਕਰ
+            </button>
+            <select id="langSelect" class="bg-slate-900 border border-cyan-500/40 text-cyan-300 text-xs rounded-lg p-2 outline-none">
+                <option value="pa-IN">🌾 ਪੰਜਾਬੀ</option>
+                <option value="hi-IN">🇮🇳 हिंदी</option>
+                <option value="en-US">🇬🇧 English</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto space-y-4">
+
+        <!-- AI Robot Display Card -->
+        <div class="glass-panel rounded-3xl p-4 sm:p-6 text-center relative overflow-hidden border border-cyan-500/30 glow-box-cyan">
+            <div class="absolute inset-0 bg-gradient-to-b from-cyan-900/10 via-transparent to-slate-950/80 pointer-events-none"></div>
+            
+            <div class="w-full h-0.5 bg-cyan-400/30 absolute left-0 top-0 scanline-effect pointer-events-none"></div>
+
+            <!-- Animated Robot Avatar Head -->
+            <div id="robotHeadBox" class="w-32 h-28 sm:w-40 sm:h-32 mx-auto my-3 bg-slate-950/90 rounded-3xl border-2 border-cyan-400/80 flex flex-col items-center justify-center relative shadow-[0_0_35px_rgba(6,182,212,0.3)] transition-all">
+                <div class="flex gap-6 sm:gap-8 items-center mb-3">
+                    <div id="eyeLeft" class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-cyan-400 border-2 border-cyan-100 flex items-center justify-center robot-eye-glow">
+                        <div class="w-2.5 h-2.5 bg-slate-950 rounded-full animate-ping"></div>
+                    </div>
+                    <div id="eyeRight" class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-cyan-400 border-2 border-cyan-100 flex items-center justify-center robot-eye-glow">
+                        <div class="w-2.5 h-2.5 bg-slate-950 rounded-full animate-ping"></div>
+                    </div>
+                </div>
+                <!-- Equalizer Mouth Bar -->
+                <div id="robotMouth" class="flex items-center gap-1 h-3 px-4">
+                    <div class="w-1 h-full bg-cyan-400 rounded-full animate-pulse"></div>
+                    <div class="w-1 h-2/3 bg-cyan-300 rounded-full animate-pulse"></div>
+                    <div class="w-1 h-full bg-cyan-400 rounded-full animate-pulse"></div>
+                </div>
+            </div>
+
+            <!-- Dynamic AI Brain Status Text Box -->
+            <div class="min-h-[50px] flex items-center justify-center p-3 rounded-2xl bg-slate-950/70 border border-slate-800 text-cyan-200 text-sm sm:text-base font-medium max-w-xl mx-auto my-2">
+                <p id="aiStatusText"><i class="fa-solid fa-sparkles text-amber-400 mr-2"></i>ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ ਸਰ! ਰੋਬੋਟ ਸਿਸਟਮ ਐਕਟਿਵ ਹੈ।</p>
+            </div>
+
+            <!-- Interactive Action Buttons -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
+                <button onclick="handleQuery('petrol')" class="p-3 rounded-xl bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/40 text-xs font-semibold text-cyan-200 transition">
+                    <i class="fa-solid fa-gas-pump text-cyan-400 mb-1 block text-base"></i> पेट्रोल टैंक स्टेटस
+                </button>
+                <button onclick="handleQuery('shop')" class="p-3 rounded-xl bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/40 text-xs font-semibold text-cyan-200 transition">
+                    <i class="fa-solid fa-shop text-amber-400 mb-1 block text-base"></i> दुकान की बिक्री
+                </button>
+                <button onclick="handleQuery('total')" class="p-3 rounded-xl bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/40 text-xs font-semibold text-cyan-200 transition">
+                    <i class="fa-solid fa-calculator text-emerald-400 mb-1 block text-base"></i> कुल हिसाब जोड़
+                </button>
+                <button onclick="handleQuery('advice')" class="p-3 rounded-xl bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/40 text-xs font-semibold text-cyan-200 transition">
+                    <i class="fa-solid fa-brain text-purple-400 mb-1 block text-base"></i> AI बिजनेस सलाह
+                </button>
+            </div>
+        </div>
+
+        <!-- Full Modules Grid (Restored) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Petrol Pump Module -->
+            <div class="glass-panel rounded-2xl p-4 border border-cyan-500/20">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-sm text-cyan-300"><i class="fa-solid fa-gas-pump mr-2 text-cyan-400"></i>पट्रोलियम टैंक मॉनिटर</h3>
+                    <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Active</span>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between text-xs mb-1 text-slate-300">
+                            <span>MS-1 पेट्रोल टैंक</span>
+                            <span class="font-bold text-cyan-300">14,200 Ltr</span>
+                        </div>
+                        <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-700">
+                            <div class="bg-cyan-400 h-full rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1 text-slate-300">
+                            <span>HSD-1 डीजल टैंक</span>
+                            <span class="font-bold text-cyan-300">18,500 Ltr</span>
+                        </div>
+                        <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-700">
+                            <div class="bg-amber-400 h-full rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shop POS Module -->
+            <div class="glass-panel rounded-2xl p-4 border border-cyan-500/20">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-sm text-amber-300"><i class="fa-solid fa-shop mr-2 text-amber-400"></i>दुकान POS काउंटर</h3>
+                    <span class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Live Sale</span>
+                </div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-400">आज की कुल बिक्री</p>
+                        <p class="text-lg font-bold text-amber-400">₹ 1,42,500</p>
+                    </div>
+                    <button onclick="speakText('दुकान की आज की कुल बिक्री एक लाख बयालीस हजार पाँच सौ रुपये हो चुकी है।')" class="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-lg text-xs font-semibold">
+                        <i class="fa-solid fa-volume-high"></i> बोलें
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // Speech synthesis core function
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = document.getElementById('langSelect').value;
+                utterance.rate = 1.0;
+                
+                // Visual mouth talking effect during speech
+                const mouth = document.getElementById('robotMouth');
+                mouth.classList.add('scale-y-125');
+                utterance.onend = () => { mouth.classList.remove('scale-y-125'); };
+                
+                window.speechSynthesis.speak(utterance);
+                document.getElementById('aiStatusText').innerHTML = `<i class="fa-solid fa-volume-high text-cyan-400 mr-2"></i>${text}`;
+            }
+        }
+
+        // Autonomous AI Brain Handler with Intelligent Understanding
+        function handleQuery(type) {
+            let response = "";
+            if (type === 'petrol') {
+                response = "सर, पेट्रोल टैंक MS-1 में अभी चौदह हजार दो सौ लीटर स्टॉक उपलब्ध है। डीजल सुरक्षित है।";
+            } else if (type === 'shop') {
+                response = "दुकान की आज की कुल बिक्री एक लाख बयालीस हजार पाँच सौ रुपये हो चुकी है।";
+            } else if (type === 'total') {
+                response = "कुल जोड़ एक लाख साठ हजार छह सौ पचास रुपये बनता है सर।";
+            } else if (type === 'advice') {
+                response = "सलाह यह है सर कि कमर्शियल 19 किलो गैस सिलेंडर का स्टॉक कम है, इसका आर्डर पहले दें।";
+            }
+            speakText(response);
+        }
+
+        window.onload = function() {
+            console.log("KESARI PRO AI System Loaded Fully");
+        };
+    </script>
+</body>
+</html>
