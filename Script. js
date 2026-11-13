@@ -185,5 +185,36 @@ function speakResponse(text) {
   utterance.lang = 'pa-IN'; // या 'hi-IN'
   utterance.rate = 0.95;    // आवाज़ की स्पीड
   synth.speak(utterance);
+}JavaScript
+
+const micButton = document.querySelector(".mic-button");
+const output = document.querySelector("#voice-text");
+
+if (micButton && output) {
+  const SpeechAPI =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (SpeechAPI) {
+    const recognition = new SpeechAPI();
+    recognition.lang = "hi-IN";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    micButton.addEventListener("click", () => {
+      recognition.start();
+    });
+
+    recognition.onresult = (event) => {
+      output.value = event.results[0][0].transcript;
+    };
+
+    recognition.onerror = (event) => {
+      console.log("Voice Error:", event.error);
+    };
+  } else {
+    alert("आपका ब्राउज़र Voice Recognition सपोर्ट नहीं करता।");
+  }
 }
+
 }, { once: true });
