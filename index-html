@@ -1,4 +1,47 @@
-<!="pa">
+HTML
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GK Kesari AI Robot</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <div class="robot">🤖</div>
+  <h2>GK KESARI AI ASSISTANT</h2>
+  <p>आपका स्मार्ट बिजनेस रोबोट ONLINE</p>
+
+  <div id="chat">
+    <div class="bot">
+      नमस्ते सर! मैं आपका AI असिस्टेंट हूँ।
+      मुझसे कोई भी सवाल पूछिए।
+    </div>
+  </div>
+
+  <input id="question"
+  type="text"
+  placeholder="अपना सवाल यहाँ लिखें..."
+  onkeydown="if(event.key==='Enter') askAI()">
+
+  <div class="buttons">
+    <button onclick="askAI()">पूछें</button>
+    <button onclick="startVoice()">🎤 बोलें</button>
+    <button onclick="robotTest()">🤖 रोबोट टेस्ट</button>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjs@13.2.0/lib/browser/math.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
+!="pa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
