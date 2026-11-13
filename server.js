@@ -50,3 +50,7 @@ app.listen(3000, () => {
   console.log("ROBO AI Server Started: 3000");
 });
 
+JavaScript
+app.listen(process.env.PORT || 3000, () => {
+  console.log("ROBO AI ONLINE");
+});
